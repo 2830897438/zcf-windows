@@ -9,26 +9,93 @@ $CLAUDE_DIR = "$env:USERPROFILE\.claude"
 $SETTINGS_FILE = "$CLAUDE_DIR\settings.json"
 $API_BASE_URL = "https://api.daidaibird.top"
 
-$MODELS = @(
-    "[官Max]claude-opus-4-6-20260205-thinking"
-    "[官Max]claude-opus-4-6-20260205"
-    "[官Max]claude-opus-4-5-20251101-thinking"
-    "[官Max]claude-opus-4-5-20251101"
-    "[官Max]claude-sonnet-4-6-20260217-thinking"
-    "[官Max]claude-sonnet-4-6-20260217"
-    "[官Max]claude-sonnet-4-5-20250929-thinking"
-    "[官Max]claude-sonnet-4-5-20250929"
-)
+# 模型表: 分组 / 模型 ID / 显示名
+$MODEL_TABLE = @(
+    # ---------- 官Max (Claude Max 订阅反代) ----------
+    @{ Group="官Max";    Id="[官Max]claude-opus-4-7";                        Name="Opus 4.7" }
+    @{ Group="官Max";    Id="[官Max]claude-opus-4-6-20260205-thinking";      Name="Opus 4.6 Thinking" }
+    @{ Group="官Max";    Id="[官Max]claude-opus-4-6-20260205";               Name="Opus 4.6" }
+    @{ Group="官Max";    Id="[官Max]claude-opus-4-5-20251101-thinking";      Name="Opus 4.5 Thinking" }
+    @{ Group="官Max";    Id="[官Max]claude-opus-4-5-20251101";               Name="Opus 4.5" }
+    @{ Group="官Max";    Id="[官Max]claude-sonnet-4-6-20260217-thinking";    Name="Sonnet 4.6 Thinking" }
+    @{ Group="官Max";    Id="[官Max]claude-sonnet-4-6-20260217";             Name="Sonnet 4.6" }
+    @{ Group="官Max";    Id="[官Max]claude-sonnet-4-5-20250929-thinking";    Name="Sonnet 4.5 Thinking" }
+    @{ Group="官Max";    Id="[官Max]claude-sonnet-4-5-20250929";             Name="Sonnet 4.5" }
 
-$MODEL_NAMES = @(
-    "Opus 4.6 (Thinking)"
-    "Opus 4.6"
-    "Opus 4.5 (Thinking)"
-    "Opus 4.5"
-    "Sonnet 4.6 (Thinking)"
-    "Sonnet 4.6"
-    "Sonnet 4.5 (Thinking)"
-    "Sonnet 4.5"
+    # ---------- 官AWS (AWS Bedrock 官方) ----------
+    @{ Group="官AWS";    Id="[官AWS]claude-opus-4-6-20260205-thinking";      Name="Opus 4.6 Thinking" }
+    @{ Group="官AWS";    Id="[官AWS]claude-opus-4-6-20260205";               Name="Opus 4.6" }
+    @{ Group="官AWS";    Id="[官AWS]claude-opus-4-5-20251101-thinking";      Name="Opus 4.5 Thinking" }
+    @{ Group="官AWS";    Id="[官AWS]claude-opus-4-5-20251101";               Name="Opus 4.5" }
+    @{ Group="官AWS";    Id="[官AWS]claude-sonnet-4-6-20260217-thinking";    Name="Sonnet 4.6 Thinking" }
+    @{ Group="官AWS";    Id="[官AWS]claude-sonnet-4-6-20260217";             Name="Sonnet 4.6" }
+    @{ Group="官AWS";    Id="[官AWS]claude-sonnet-4-5-20250929-thinking";    Name="Sonnet 4.5 Thinking" }
+    @{ Group="官AWS";    Id="[官AWS]claude-sonnet-4-5-20250929";             Name="Sonnet 4.5" }
+
+    # ---------- 官cookie (Cookie 反代) ----------
+    @{ Group="官cookie"; Id="[官cookie]claude-opus-4-7";                     Name="Opus 4.7" }
+    @{ Group="官cookie"; Id="[官cookie]claude-opus-4-6-20260205-thinking";   Name="Opus 4.6 Thinking" }
+    @{ Group="官cookie"; Id="[官cookie]claude-opus-4-6-20260205";            Name="Opus 4.6" }
+    @{ Group="官cookie"; Id="[官cookie]claude-opus-4-5-20251101-thinking";   Name="Opus 4.5 Thinking" }
+    @{ Group="官cookie"; Id="[官cookie]claude-opus-4-5-20251101";            Name="Opus 4.5" }
+    @{ Group="官cookie"; Id="[官cookie]claude-sonnet-4-6-20260217-thinking"; Name="Sonnet 4.6 Thinking" }
+    @{ Group="官cookie"; Id="[官cookie]claude-sonnet-4-6-20260217";          Name="Sonnet 4.6" }
+    @{ Group="官cookie"; Id="[官cookie]claude-sonnet-4-5-20250929-thinking"; Name="Sonnet 4.5 Thinking" }
+    @{ Group="官cookie"; Id="[官cookie]claude-sonnet-4-5-20250929";          Name="Sonnet 4.5" }
+
+    # ---------- code (Claude Code 专用通道) ----------
+    @{ Group="code";     Id="[code]claude-opus-4-7";                         Name="Opus 4.7" }
+    @{ Group="code";     Id="[code]claude-opus-4-6-20260205-thinking";       Name="Opus 4.6 Thinking" }
+    @{ Group="code";     Id="[code]claude-opus-4-6-20260205";                Name="Opus 4.6" }
+    @{ Group="code";     Id="[code]claude-opus-4-1-20250805-thinking";       Name="Opus 4.1 Thinking" }
+    @{ Group="code";     Id="[code]claude-opus-4-1-20250805";                Name="Opus 4.1" }
+    @{ Group="code";     Id="[code]claude-opus-4-20250514-thinking";         Name="Opus 4 Thinking" }
+    @{ Group="code";     Id="[code]claude-opus-4-20250514";                  Name="Opus 4" }
+    @{ Group="code";     Id="[code]claude-sonnet-4-6-20260217-thinking";     Name="Sonnet 4.6 Thinking" }
+    @{ Group="code";     Id="[code]claude-sonnet-4-6-20260217";              Name="Sonnet 4.6" }
+
+    # ---------- 啾啾(稳) ----------
+    @{ Group="啾啾(稳)"; Id="[啾啾(稳)]claude-opus-4-7";                     Name="Opus 4.7" }
+    @{ Group="啾啾(稳)"; Id="[啾啾(稳)]claude-opus-4-6-20260205-thinking";   Name="Opus 4.6 Thinking" }
+    @{ Group="啾啾(稳)"; Id="[啾啾(稳)]claude-opus-4-6-20260205";            Name="Opus 4.6" }
+    @{ Group="啾啾(稳)"; Id="[啾啾(稳)]claude-sonnet-4-6-20260217-thinking"; Name="Sonnet 4.6 Thinking" }
+    @{ Group="啾啾(稳)"; Id="[啾啾(稳)]claude-sonnet-4-6-20260217";          Name="Sonnet 4.6" }
+
+    # ---------- 啾啾 ----------
+    @{ Group="啾啾";     Id="[啾啾]claude-opus-4-6-20260205-thinking";       Name="Opus 4.6 Thinking" }
+    @{ Group="啾啾";     Id="[啾啾]claude-opus-4-6-20260205";                Name="Opus 4.6" }
+    @{ Group="啾啾";     Id="[啾啾]claude-opus-4-5-20251101-thinking";       Name="Opus 4.5 Thinking" }
+    @{ Group="啾啾";     Id="[啾啾]claude-opus-4-5-20251101";                Name="Opus 4.5" }
+    @{ Group="啾啾";     Id="[啾啾]claude-sonnet-4-6-20260217-thinking";     Name="Sonnet 4.6 Thinking" }
+    @{ Group="啾啾";     Id="[啾啾]claude-sonnet-4-6-20260217";              Name="Sonnet 4.6" }
+    @{ Group="啾啾";     Id="[啾啾]claude-sonnet-4-5-20250929-thinking";     Name="Sonnet 4.5 Thinking" }
+    @{ Group="啾啾";     Id="[啾啾]claude-sonnet-4-5-20250929";              Name="Sonnet 4.5" }
+
+    # ---------- 嘎嘎 ----------
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-6-20260205-thinking";       Name="Opus 4.6 Thinking" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-6-20260205";                Name="Opus 4.6" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-1-20250805-thinking";       Name="Opus 4.1 Thinking" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-1-20250805";                Name="Opus 4.1" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-20250514-thinking";         Name="Opus 4 Thinking" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-opus-4-20250514";                  Name="Opus 4" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-sonnet-4-6-20260217-thinking";     Name="Sonnet 4.6 Thinking" }
+    @{ Group="嘎嘎";     Id="[嘎嘎]claude-sonnet-4-6-20260217";              Name="Sonnet 4.6" }
+
+    # ---------- 默认 (无前缀,兜底渠道) ----------
+    @{ Group="默认";     Id="claude-opus-4-5-20251101-thinking";             Name="Opus 4.5 Thinking" }
+    @{ Group="默认";     Id="claude-opus-4-5-20251101";                      Name="Opus 4.5" }
+    @{ Group="默认";     Id="claude-opus-4-1-20250805-thinking";             Name="Opus 4.1 Thinking" }
+    @{ Group="默认";     Id="claude-opus-4-1-20250805";                      Name="Opus 4.1" }
+    @{ Group="默认";     Id="claude-opus-4-20250514-thinking";               Name="Opus 4 Thinking" }
+    @{ Group="默认";     Id="claude-opus-4-20250514";                        Name="Opus 4" }
+    @{ Group="默认";     Id="claude-sonnet-4-5-20250929-thinking";           Name="Sonnet 4.5 Thinking" }
+    @{ Group="默认";     Id="claude-sonnet-4-5-20250929";                    Name="Sonnet 4.5" }
+    @{ Group="默认";     Id="claude-sonnet-4-20250514-thinking";             Name="Sonnet 4 Thinking" }
+    @{ Group="默认";     Id="claude-sonnet-4-20250514";                      Name="Sonnet 4" }
+    @{ Group="默认";     Id="claude-3-7-sonnet-20250219-thinking";           Name="Sonnet 3.7 Thinking" }
+    @{ Group="默认";     Id="claude-3-7-sonnet-20250219";                    Name="Sonnet 3.7" }
+    @{ Group="默认";     Id="claude-haiku-4-5-20251001-thinking";            Name="Haiku 4.5 Thinking" }
+    @{ Group="默认";     Id="claude-haiku-4-5-20251001";                     Name="Haiku 4.5" }
 )
 
 Write-Host ""
@@ -51,28 +118,35 @@ if ([string]::IsNullOrWhiteSpace($API_KEY)) {
 
 # ---- 步骤 2: 选择模型 ----
 Write-Host ""
-Write-Host "[步骤 2/2] 请选择要使用的模型" -ForegroundColor Blue
-Write-Host ""
+Write-Host "[步骤 2/2] 请选择要使用的模型 (共 $($MODEL_TABLE.Count) 个)" -ForegroundColor Blue
 
-for ($i = 0; $i -lt $MODELS.Count; $i++) {
+$lastGroup = ""
+for ($i = 0; $i -lt $MODEL_TABLE.Count; $i++) {
+    $item = $MODEL_TABLE[$i]
+    if ($item.Group -ne $lastGroup) {
+        Write-Host ""
+        Write-Host "  === $($item.Group) ===" -ForegroundColor Magenta
+        $lastGroup = $item.Group
+    }
     $num = $i + 1
-    Write-Host "  $num) " -ForegroundColor Green -NoNewline
-    Write-Host $MODEL_NAMES[$i]
-    Write-Host "     $($MODELS[$i])" -ForegroundColor Yellow
+    Write-Host ("  {0,3}) " -f $num) -ForegroundColor Green -NoNewline
+    Write-Host ("{0,-22}" -f $item.Name) -NoNewline
+    Write-Host "  $($item.Id)" -ForegroundColor DarkGray
 }
 
 Write-Host ""
-$MODEL_CHOICE = Read-Host "请输入序号 (1-$($MODELS.Count))"
+$MODEL_CHOICE = Read-Host "请输入序号 (1-$($MODEL_TABLE.Count))"
 
 # 验证输入
 $choice = 0
-if (-not [int]::TryParse($MODEL_CHOICE, [ref]$choice) -or $choice -lt 1 -or $choice -gt $MODELS.Count) {
-    Write-Host "错误: 请输入 1-$($MODELS.Count) 之间的数字" -ForegroundColor Red
+if (-not [int]::TryParse($MODEL_CHOICE, [ref]$choice) -or $choice -lt 1 -or $choice -gt $MODEL_TABLE.Count) {
+    Write-Host "错误: 请输入 1-$($MODEL_TABLE.Count) 之间的数字" -ForegroundColor Red
     exit 1
 }
 
-$SELECTED_MODEL = $MODELS[$choice - 1]
-$SELECTED_NAME = $MODEL_NAMES[$choice - 1]
+$SELECTED = $MODEL_TABLE[$choice - 1]
+$SELECTED_MODEL = $SELECTED.Id
+$SELECTED_NAME = "[$($SELECTED.Group)] $($SELECTED.Name)"
 
 # ---- 写入配置 ----
 Write-Host ""
